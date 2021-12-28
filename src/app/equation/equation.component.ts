@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { parse } from 'querystring';
 
 @Component({
   selector: 'app-equation',
@@ -10,8 +11,21 @@ export class EquationComponent implements OnInit {
   mathForm = new FormGroup({
     a: new FormControl(this.randomNumber()),
     b: new FormControl(this.randomNumber()),
-    answer: new FormControl("")
-  })
+    answer: new FormControl('')
+  }, [
+(form: AbstractControl)
+ => {
+     const {a, b, answer} = form.value;
+     if(a + b === parseInt(answer)) {
+       return null;
+     }
+
+     return { addition: true };
+    }
+  ]
+  
+  
+  )
   
   constructor() { }
 
